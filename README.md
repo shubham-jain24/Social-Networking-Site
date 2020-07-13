@@ -1,4 +1,4 @@
-# Social-Networking-Site
+# Social-Networking-Site (MEAN Stack)
 
 This site is build using MEAN Stack
 
