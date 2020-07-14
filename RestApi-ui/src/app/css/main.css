@@ -1,0 +1,85 @@
+.wall-bg
+{
+    background-color: cornsilk;
+}
+.post-up
+{
+    background-color: coral;
+    padding: 5px;
+}
+.post-name
+{
+    font-size: 25px;
+}
+.post-age-gender
+{
+    font-size: 10px;;
+}
+.post-content
+{
+    font-size: 17px;
+    border: coral;
+}
+.post-down
+{
+    background-color: coral;
+    text-align: center;
+}
+.post-single
+{
+    padding: 10px;
+}
+.post-bg
+{
+    background-color: bisque ;
+}
+.post-image
+{
+    padding: 10px;
+}
+.upvote-button
+{
+    margin: 5px;
+}
+.home-main-button
+{
+    background-color: orangered;
+    text-align: center;
+    width: 100%;
+}
+.up-btn-tag
+{
+    text-align: center;
+    padding: 0.5%;
+    margin-top: 1%;
+    
+}
+.base
+{
+    background-color: rgba(255, 231, 187, 0.877);
+}
+.post-heading
+{
+    margin-top: 2%;
+    margin-bottom: 1%;
+    font-size: 40px;
+    text-align: center;
+    background-color: coral;
+    padding: 1%;
+}
+.add-link
+{
+    padding: 5px;
+    margin: 10px;
+}
+.domain-button
+{
+    background-color: rgba(255, 68, 0, 0.281);
+    text-align: center;
+    width: 100%;
+}
+.down-btn-tag
+{
+    text-align: center;
+    margin: 0.5%;
+}
