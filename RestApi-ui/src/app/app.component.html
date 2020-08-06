@@ -3,18 +3,50 @@
     <h1>
       Passion Career
     </h1>
+  </div>  
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2" *ngIf = "this.bookService.getSessionEmail() != null">
+      {{this.bookService.getSessionName()}}
+    </div>
+    <div class="col-md-1" *ngIf = "this.bookService.getSessionEmail() != null">
+      <button class="btn btn-primary" (click) = "logout()">Logout</button>
+    </div>
+    <div class="col-md-1" *ngIf = "this.bookService.getSessionEmail() != null">
+      <button class="home-main-button btn" [routerLink] = "['/user/home']">Home</button>
+    </div>
+  </div>
+  <div *ngIf = "this.bookService.getSessionEmail() == null">
+    <div class="row post-heading">
+      <div class="col-md-3"></div>
+      <div class="col-md-6">
+        Login In
+      </div>
+      <div class="col-md-3"></div>
+    </div>
+    <div class = "row location-login">
+      <div class="col-md-3"></div>
+      <div class="col-md-6 post-bg">
+        <form [formGroup]="authform" (ngSubmit)="VerifyUser()" novalidate>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" class="form-control" formControlName="email" required/>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" formControlName="password" required/>
+          </div>  
+          <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+      </div>
+      <div class="col-md-3"></div>
+    </div>
   </div>
 
-  <div class="row up-btn-tag">
-    <span class= "col-md-4 ">
-      <button class="home-main-button btn" [routerLink] = "['/']">Home</button>
-    </span>
-    <span class= "col-md-4">
-      <button class="home-main-button btn" [routerLink] = "['/post/createpost']">Create Post</button>
-    </span>
-    <span class= "col-md-4">
-      <button class="home-main-button btn" [routerLink] = "['/all/domain']">Domains</button>
-    </span>
+  <div *ngIf = "this.bookService.getSessionEmail() != null">
+    <router-outlet></router-outlet>
   </div>
-  <router-outlet></router-outlet>
+
+
 </div>

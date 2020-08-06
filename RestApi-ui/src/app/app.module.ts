@@ -14,6 +14,11 @@ import { AuthenticationComponent } from './components/authentication/authenticat
 import { EditPostComponent } from './components/edit-post/edit-post.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { AllDomainComponent } from './components/all-domain/all-domain.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { EditdashboardComponent } from './components/editdashboard/editdashboard.component';
+import { EditpostComponent } from './components/editpost/editpost.component';
+import { ChangepasswordComponent } from './components/changepassword/changepassword.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,12 @@ import { AllDomainComponent } from './components/all-domain/all-domain.component
     AuthenticationComponent,
     EditPostComponent,
     CreatePostComponent,
-    AllDomainComponent
+    AllDomainComponent,
+    SignupComponent,
+    DashboardComponent,
+    EditdashboardComponent,
+    EditpostComponent,
+    ChangepasswordComponent
   ],
   imports: [
     BrowserModule,

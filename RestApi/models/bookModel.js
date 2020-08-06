@@ -6,7 +6,6 @@ const bookModel = new Schema(
     {
         name: {type: String},
         email: { type: String },
-        password: { type: String },
         posts:{
                     postcontent: {type: String},
                     postimage: [
@@ -17,8 +16,9 @@ const bookModel = new Schema(
                 },
         age: { type: Number },
         gender: {type: String},
-        subscription: { type: String },
-        phone: { type: String }
+        liked: [
+            {type: String, default: null}
+        ]
     }
 );
 

@@ -24,13 +24,6 @@ export class CreatePostComponent implements OnInit {
     'Others'
   ];
 
-  genders: String[] = [
-    'Male',
-    'Female',
-    'Other'
-  ]
-
-
 
 
   postform: FormGroup;
@@ -39,11 +32,10 @@ export class CreatePostComponent implements OnInit {
 
   ngOnInit(): void {
     this.postform = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
-      age: [],
-      gender: ['', Validators.required],
+      name: [this.bookService.getSessionName(), Validators.required],
+      email: [this.bookService.getSessionEmail(), Validators.required],
+      age: [this.bookService.getSessionAge()],
+      gender: [this.bookService.getSessionGender(), Validators.required],
       posts: this.fb.group(
       {
         domain: ['', Validators.required],
@@ -52,8 +44,7 @@ export class CreatePostComponent implements OnInit {
           new FormControl('')
         ])
       }
-      ),
-      phone: ['', Validators.required]
+      )
 
     });
     

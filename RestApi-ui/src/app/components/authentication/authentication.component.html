@@ -1,16 +1,26 @@
-<div class="container">
-    <form [formGroup]="authform" (ngSubmit)="VerifyUser()" novalidate>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" class="form-control" formControlName="email" required/>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" class="form-control" formControlName="password" required/>
-      </div>  
-      <div class="form-group">
-        <input type="hidden" class="form-control" formControlName="postid" required/>
-      </div>
-      <button type="submit" class="btn btn-primary" >Submit</button>
-    </form>
+<div class="container wall-bg">
+  <div class="row post-heading">
+    Welcome {{this.sessionName}} To The World Of Talent
   </div>
+  <div class="row post-bg">
+    <div class="col-md-4"></div>
+    <div class= "col-md-4 ">
+      <button class="home-main-button btn" [routerLink] = "['/post/createpost']"  >Create Post</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <div class="row post-bg">
+    <div class="col-md-4"></div>
+    <div class= "col-md-4 ">
+      <button class="home-main-button btn" [routerLink] = "['/all/domain']" >Domains</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+  <div class="row post-bg">
+    <div class="col-md-4"></div>
+    <div class= "col-md-4 ">
+      <button class="home-main-button btn" [routerLink] = "['/user/dashboard']">Dashboard</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>

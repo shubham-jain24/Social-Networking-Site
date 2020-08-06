@@ -15,9 +15,10 @@ const db = mongoose.connect('mongodb://localhost/bookAPI', {
 const port = process.env.PORT || 3000;
 
 const Book = require('./models/bookModel');
-const Check = require('./models/authModel');
+const Register= require('./models/registerModel');
+const Session = require('./models/sessionModel');
 
-const router = require('./router/bookRouter')(Book, Check);
+const router = require('./router/bookRouter')(Book, Register, Session);
 
 
 app.use(bodyParser.urlencoded({ extended: true }));

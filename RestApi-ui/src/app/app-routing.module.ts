@@ -5,6 +5,8 @@ import { DomainsComponent } from './components/domains/domains.component';
 import { AuthenticationComponent } from './components/authentication/authentication.component';
 import { CreatePostComponent } from './components/create-post/create-post.component';
 import { AllDomainComponent } from './components/all-domain/all-domain.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
@@ -16,7 +18,7 @@ const routes: Routes = [
     component: DomainsComponent
   },
   {
-    path: 'home/authenticate/:id',
+    path: 'user/home',
     component: AuthenticationComponent
   },
   {
@@ -26,7 +28,16 @@ const routes: Routes = [
   {
     path: 'all/domain',
     component: AllDomainComponent
+  },
+  {
+    path: 'user/dashboard',
+    component: DashboardComponent
+  },
+  {
+    path: 'register',
+    component: SignupComponent
   }
+
 ];
 
 @NgModule({

@@ -1,7 +1,9 @@
 const express = require('express');
 
-function routes(Book, Check) {
+
+function routes(Book, Register, Session) {
     const router = express.Router();
+    //To get the all post data
     router.route('/books')
         .post((req, res) => {
             const book = new Book(req.body);
@@ -19,29 +21,122 @@ function routes(Book, Check) {
                 return res.json(books);
             });
         });
+    
 
-    router.route('/app/authenticate')
-    .post((req, res) => {
-        const authcheck = new Check(req.body);
-        console.log(authcheck);
-        Book.find({'_id': authcheck.postid, 'email': authcheck.email, 'password': authcheck.password }, (err,books) => 
-        {
+    //Adding Temporary Session Details 
+    router.route('/session/details')
+    .post((req,res) => {
+        const session = new Session(req.body);
+
+        session.save();
+        return res.status(201).json(session);
+    });
+
+    router.route('/user/domain')
+    .get((req,res) => {
+        const ppp = JSON.stringify(Register.aggregate([
+            {
+                $lookup:
+                {
+                    from: "Book",
+                    localField: "reg_email",
+                    foreignField: "email",
+                    as: "user_email"
+                }
+            }
+        ]));
+        console.log("****");
+        console.log(ppp);
+    
+        // .find((err, books) =>
+        // {
+        //     if(err)
+        //     {
+        //         console.log(err);
+        //     }
+        //     return res.json(books);
+        // });
+    });
+
+
+
+
+    //On Login - Getting Session Details to start the session
+    router.route('/start/session/:email')
+    .get((req,res) => {
+        Session.find({'email': req.params.email}, (session, err) => {
             if(err)
             {
                 return res.send(err);
             }
-            if(Object.keys(books).length)
-            {
-                console.log(books);
-                return res.send('success');
-            }            
-            return res.send('failed');
+            return res.json(session);
         });
     });
 
 
     
 
+    //On Logout - Deleting Session
+    router.route('/delete/session/:id')
+    .delete((req,res) => {
+        Session.findById(req.params.id ,  (err, session) =>
+           {
+               if(err)
+               {
+                   console.log(err);
+                   return res.send(err);
+               }
+               session.remove((err) => {
+                   if(err)
+                   {
+                       return res.send(err);
+                   }
+                   return res.sendStatus(204);
+               });
+            });
+    });
+
+
+
+
+    //Clcik on Login Authenticating user from main user personal info database - registerModel
+    router.route('/app/authenticate/:email/:password')
+    .get((req, res) => {
+        Register.find({'reg_email': req.params.email, 'reg_password': req.params.password }, (err,book) => 
+        {
+            if(err)
+            {
+                return res.send(err);
+            }
+            return res.json(book);
+        });
+    });
+
+
+    // Signup Page - register user
+    router.route('/register')
+    .post((req,res) => {
+        const register = new Register(req.body);
+        register.save();
+        return res.status(201).json(register);
+
+    })
+    .get((req, res) => {
+        const { query } = req;
+        Register.find(query, (err, details) => {
+
+            if (err) {
+                return res.send(err);
+            }
+            return res.json(details);
+        });
+    });
+
+
+
+
+    
+    //Loading Domain page based on domain selected by user
     router.route('/books/domain/:dname')
         .get((req, res) => {
             
@@ -55,53 +150,45 @@ function routes(Book, Check) {
             });
         });
 
-    
-    
 
-    
-    
-    
-    router.use('/books/:bookId', (req, res, next) =>
+
+    //Loading Dashboard Data   - shift from Email to Id
+    router.route('/dashboard/:email')
+    .get((req,res) => 
     {
-        Book.findById(req.params.bookId, (err, book) => 
-        {
-            if (err) {
+        Book.find({"email": req.params.email}, (err,books)=> {
+            if(err)
+            {
                 return res.send(err);
             }
-            if(book)
-            {
-                req.book = book;
-                console.log(req.book);
-                return next();
-            }
-            return res.sendStatus(404);
+
+            return res.json(books);
         });
     });
+    
 
-    router.route('/books/:bookId')
-        .get((req, res) => res.json(req.book))
-        .put((req,res) => {
 
-                const {book} = req;
+    //Edit the post - Fetich data to load edit form then calling patch request to update changes item
+    router.route('/edit/:id')
+    .get((req,res) => 
+    {
+        Book.find({"_id": req.params.id}, (err,book)=> {
+            if(err)
+            {
+                return res.send(err);
+            }
 
-                book.title = req.body.title;
-                book.author = req.body.author;
-                book.genre = req.body.genre;
-                book.read = req.body.read;
-                req.book.save((err)=>{
-                    if(err)
-                    {
-                        return res.send(err);
-                    }
-                    return res.json(book);
-                });
-            })
-        .patch((req, res) => {
-            const{ book } = req;
+            return res.json(book);
+        });
+    })
+    .patch((req,res)=> {
+        Book.findById(req.params.id, (err,book)=>
+        {
             if(req.body._id)
             {
                 delete req.body._id;
             }
+            
 
             Object.entries(req.body).forEach((item) =>
             {
@@ -109,16 +196,76 @@ function routes(Book, Check) {
                 const value = item[1];
                 book[key] = value;
             });
+            console.log(book);
 
-            req.book.save((err)=>{
-                if(err)
-                {
-                    return res.send(err);
-                }
-                return res.json(book);
-            });
+            book.save();
+            return res.json(book);
         });
+    });
 
+    
+    
+    
+    // router.use('/books/:bookId', (req, res, next) =>
+    // {
+    //     Book.findById(req.params.bookId, (err, book) => 
+    //     {
+    //         if (err) {
+    //             return res.send(err);
+    //         }
+    //         if(book)
+    //         {
+    //             req.book = book;
+    //             console.log(req.book);
+    //             return next();
+    //         }
+    //         return res.sendStatus(404);
+    //     });
+    // });
+
+    // router.route('/books/:bookId')
+    //     .get((req, res) => res.json(req.book))
+    //     .put((req,res) => {
+
+    //             const {book} = req;
+
+    //             book.title = req.body.title;
+    //             book.author = req.body.author;
+    //             book.genre = req.body.genre;
+    //             book.read = req.body.read;
+    //             req.book.save((err)=>{
+    //                 if(err)
+    //                 {
+    //                     return res.send(err);
+    //                 }
+    //                 return res.json(book);
+    //             });
+    //         })
+    //     .patch((req, res) => {
+    //         const{ book } = req;
+    //         if(req.body._id)
+    //         {
+    //             delete req.body._id;
+    //         }
+
+    //         Object.entries(req.body).forEach((item) =>
+    //         {
+    //             const key = item[0];
+    //             const value = item[1];
+    //             book[key] = value;
+    //         });
+
+    //         req.book.save((err)=>{
+    //             if(err)
+    //             {
+    //                 return res.send(err);
+    //             }
+    //             return res.json(book);
+    //         });
+    //     });
+
+
+    //Deleting a post based on post id
     router.route('/delete/:postid')
        .delete((req,res) => {
            Book.findById(req.params.postid ,  (err, book) =>
@@ -141,27 +288,26 @@ function routes(Book, Check) {
 
            });
        });
+   
+    //Updating Vote count for post
+    router.route('/like/:postid/:id')
+        .post((req,res) => {
+            Book.updateOne({'_id': req.params.postid},{$addToSet : { liked: [req.params.id]}}, (err, book) => {
+                return res.json(book);
+        });
+    });
 
-    router.route('/post/:id/:votecount')
-       .put((req,res) => {
-           console.log("123");
-           Book.updateOne({ '_id': req.params.id}, { 'posts.postupvote' : Number(req.params.votecount)+1 }, (err, result) =>
-           {
-               
-               if(err)
-               {
-                   console.log(err);
-                   return res.send(err);
-               }
-               return res.json(result);
-           })
-   
-       });
-   
-       
+    //Adding the post liked by user to database
+    router.route('/like/user/:id/:postid')
+        .post((req,res) => {
+            Register.updateOne({'_id': req.params.id},{$addToSet : { postlike: [req.params.postid]}}, (err, book) => {
+                return res.json(book);
+        });
+    });
 
 
         
        return router;
 }
+
 module.exports = routes;

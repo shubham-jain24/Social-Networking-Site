@@ -8,19 +8,26 @@
         <div class = "col-md-3"></div>
         <div class="col-md-6 post-bg">
             <form [formGroup]="postform" (ngSubmit)="postdetails()" novalidate>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label>Email</label>
                 <input type="email" class="form-control" formControlName="email" required/>
             </div>
-            <div class="form-group">
-                <label>Password</label>
-                <input type="password" class="form-control" formControlName="password" required/>
-            </div>
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label>Name</label>
                 <input type="text" class="form-control" formControlName="name" required/>
             </div> 
             <div class="form-group" formGroupName = "posts">
+                <div formArrayName = "postimage">
+                    <div class = "form-group">
+                        <button class="btn btn-success add-link" (click) = "addImageLink()">Click To Add More Image Link</button>
+                        <div *ngFor = "let image of postform.get('posts').get('postimage').value; let i=index">
+                            <label> Image Link:  </label>
+                            <div>
+                                <input class = "form-control" type="text" [formControlName] = "i">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div>  
                     <label>Post-Content</label>
                     <input type="string" class="form-control" formControlName="postcontent" required/>
@@ -33,33 +40,14 @@
                         [value]="k">{{k}}</option>
                     </select>
                 </div>
-                <div formArrayName = "postimage">
-                    <div class = "form-group">
-                        <button class="btn btn-success add-link" (click) = "addImageLink()">Click To Add More Image Link</button>
-                        <div *ngFor = "let image of postform.get('posts').get('postimage').value; let i=index">
-                            <label> Image Link:  </label>
-                            <div>
-                                <input class = "form-control" type="text" [formControlName] = "i">
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div> 
-            <div class="form-group">
-                <label>Phone No.</label>
-                <input type="text" class="form-control" formControlName="phone" required/>
-            </div>  
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label>Age</label>
                 <input type="number" class="form-control" formControlName="age" required/>
             </div> 
-            <div class="form-group">
+            <div class="form-group" hidden>
                 <label>Gender</label>
-                <select class="form-control" formControlName="gender" required>
-                    <option value="" selected>----Please Select One----</option>
-                        <option *ngFor="let d of genders"
-                        [value]="d">{{d}}</option>
-                </select>
+                <input type = "text" class="form-control" formControlName="gender" required/>
             </div> 
             
             

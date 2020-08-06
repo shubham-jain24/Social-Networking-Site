@@ -1,8 +1,8 @@
 <div class="container">
     
     <div>
-        <h1>{{domainName}}</h1>
-        <div *ngFor ="let data of DomainData" class="row wall-bg post-single">
+        <h1>Dashboard</h1>
+        <div *ngFor ="let data of DashboardData" class="row wall-bg post-single">
             <div class = "col-md-3"></div>
             <div class= "col-md-6 post-bg">
                 <div class = "post-up">
@@ -23,8 +23,8 @@
                         
                     </div>
                     <div class = "post-down">
-                        <button class="btn btn-primary upvote-button" width = "100%" (click) = "updateUserVoteCount(data._id,data.posts.postupvote)" >Upvote : {{data.liked.length}}</button>
-                        <button class="btn btn-primary upvote-button" (click) = "editPostDetailsVerification(data._id)">Request Details</button>
+                        <button class="btn btn-primary upvote-button">Edit Post</button>
+                        <button class="btn btn-primary upvote-button">Delete Post</button>
                     </div>
                 </div>   
             </div>
