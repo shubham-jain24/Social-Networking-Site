@@ -17,7 +17,17 @@
       <button class="home-main-button btn" [routerLink] = "['/user/home']">Home</button>
     </div>
   </div>
-  <div *ngIf = "this.bookService.getSessionEmail() == null">
+  <div *ngIf = "this.bookService.getSessionEmail() == null && this.loginFlag == 1">
+    <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+      <button (click) = "signup()" *ngIf = "this.loginFlag == 1" class="btn btn-primary">Signup</button>
+    </div>
+    <div class="col-md-2">
+      <button (click) = "login()" *ngIf = "this.signupFlag == 1"  class="btn btn-primary">Login</button>
+    </div>
+    </div>
     <div class="row post-heading">
       <div class="col-md-3"></div>
       <div class="col-md-6">
@@ -43,6 +53,65 @@
       <div class="col-md-3"></div>
     </div>
   </div>
+
+
+<!-- Signup Page -->
+  <div *ngIf = "this.bookService.getSessionEmail() == null && this.signupFlag == 1">
+    <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+    <div class="col-md-2">
+      <button (click) = "signup()" *ngIf = "this.loginFlag == 1" class="btn btn-primary">Signup</button>
+    </div>
+    <div class="col-md-2">
+      <button (click) = "login()" *ngIf = "this.signupFlag == 1"  class="btn btn-primary">Login</button>
+    </div>
+    </div>
+     <div class="row post-heading">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">Register User</div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class = "col-md-3"></div>
+        <div class="col-md-6 post-bg">
+            <form [formGroup]="signupform" (ngSubmit)="getUserDetails()" novalidate>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" class="form-control" formControlName="reg_name" required/>
+                </div> 
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" formControlName="reg_email" required/>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" formControlName="reg_password" required/>
+                </div>
+                
+                <div class="form-group">
+                    <label>Phone No.</label>
+                    <input type="text" class="form-control" formControlName="reg_phone" required/>
+                </div>  
+                <div class="form-group">
+                    <label>Age</label>
+                    <input type="number" class="form-control" formControlName="reg_age" required/>
+                </div> 
+                <div class="form-group">
+                    <label>Gender</label>
+                    <select class="form-control" formControlName="reg_gender" required>
+                        <option value="" selected>----Please Select One----</option>
+                            <option *ngFor="let d of genders"
+                            [value]="d">{{d}}</option>
+                    </select>
+                </div> 
+                <button type="submit" class="btn btn-primary" >Submit</button>
+            </form>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+  </div>
+
 
   <div *ngIf = "this.bookService.getSessionEmail() != null">
     <router-outlet></router-outlet>

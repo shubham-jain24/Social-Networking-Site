@@ -1,6 +1,6 @@
 import { BookService } from './services/book.service';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormArray, FormBuilder} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -14,18 +14,38 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class AppComponent {
   title = 'RestApi-ui';
 
+  genders: String[] = [
+    'Male',
+    'Female',
+    'Other'
+  ]
+
 
   authform: FormGroup;
+  signupform: FormGroup;
+
   private sessionId: string = null;
   private sessionEmail: String = null;
   private sessionName: String = null;
   private sessionGender: String = null;
   private sessionAge: Number = 0;
   private userId: String = null;
-  constructor(private router: Router, public bookService: BookService, private route: ActivatedRoute) {}
+  public signupFlag = 0;
+  public loginFlag = 1;
+  constructor(private router: Router, public bookService: BookService, private route: ActivatedRoute,  private fb: FormBuilder) {}
 
 
   ngOnInit(): void {
+    this.signupform = this.fb.group
+      ({
+        reg_name: ['', Validators.required],
+        reg_age: [],
+        reg_email: ['', Validators.required],
+        reg_password: ['', Validators.required],
+        reg_gender: ['', Validators.required],
+        reg_phone: ['', Validators.required]
+      }); 
+
     this.authform = new FormGroup({
       email: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required)
@@ -51,6 +71,18 @@ export class AppComponent {
       }
     ); 
 
+  }
+
+  signup()
+  {
+    this.signupFlag = 1;
+    this.loginFlag = 0;
+  }
+
+  login()
+  {
+    this.loginFlag = 1;
+    this.signupFlag = 0;
   }
 
 
@@ -107,6 +139,19 @@ export class AppComponent {
     {
       console.log("The Data You have Entered Are not Correct");
     }
+  }
+
+  getUserDetails()
+  {
+    this.bookService.registerUser(this.signupform.value).subscribe(data =>
+      {
+        this.signupform.reset();
+        console.log(data);
+      },
+      error =>
+      {
+        console.log(error);
+      });
   }
 
 
