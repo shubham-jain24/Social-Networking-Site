@@ -8,12 +8,17 @@
 ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)
 
 
-This site is build using MEAN Stack
+## Live Demo
 
-Proxy Server is used to connect the frontend part and the backend part.
+[![Live Demo](https://img.shields.io/badge/Demo-Live-brightgreen?logo=google-chrome&logoColor=white)](https://dream-book-application.web.app/)
 
-The Web app is build such that the backend can exist independently Like if in future you need to change your frontend tool to any tool other than Angular you can do it easily.
 
+
+### Latest Backend code Migrated to below repo
+[![Internal GitHub Repo](https://img.shields.io/badge/GitHub-Repo-blue?logo=github)](https://github.com/shubham-jain24/Backend-Social-Networking-Site)
+
+
+## How to Run the application locally
 There are two folders 
 
     1) RestApi -> Backend
